@@ -20,39 +20,37 @@ export default class PersonDetail extends Component {
   swapi = new SwapiService();
  
   getUserData = async (id) => {
-    
     try {
-      const user = await this.swapi.getUser(id );
-
-      if(this.state.user.id !== id) this.setState({user})
+       const user = await this.swapi.getUser(id );
+      console.log('getUserData: ', id);
+      if(this.state.user.id !== id) this.onLoadData(user)
     } catch (error) {
-      
+      this.setState({
+        loading: false
+      });
       throw new Error(error)
       
     }
   }
+  onLoadData = (user) => {
+    this.setState({
+      user,
+      loading: false
+    });
+  }
   componentDidMount() {
     this.getUserData(1);
-    console.log('user', this.state.user);
-
-  }
-  componentDidCatch() {
-    this.setState({hasError: true})
-    return <h1>nhakjncscnskcnskcjsn</h1>
-  }
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true };
   }
 
   render() {
-    
     const { itemId } = this.props;
+    const  { user, loading }  = this.state;
 
     if(itemId)  this.getUserData( itemId);
     
-    const  { user }  = this.state;
-    if(!user) return <Spinner animation="border" variant="warning"/>
+    
+    
+    if(loading) return <Spinner animation="border" variant="warning"/>
 
     return (
       <Row className="detail">
