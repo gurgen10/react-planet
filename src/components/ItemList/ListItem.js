@@ -7,11 +7,16 @@ export default class ListItem extends Component {
   swapi = new SwapiService();
   state= {
     items: null,
-    loading: false
+    loading: false,
+    activeId: '1'
   }
   componentDidMount() {
     this.getUsers();
 
+  }
+  onClickItemData = (id) => {
+    this.setState({ activeId: id })
+    this.props.onClickItem(id)
   }
   getUsers = async () => {
     try {
@@ -27,14 +32,13 @@ export default class ListItem extends Component {
   }
 
   render() {
-    const { items } = this.state;
-    const { onClickItem } = this.props;
+    const { items, activeId } = this.state;
     
     if(!items) return <Spinner  animation="border" variant="warning"/>
    
     const users = items.map((item, index) => {
       return (
-        <ListGroup.Item onClick={()=> onClickItem(item.id)} variant="dark" action key={item.id}>
+        <ListGroup.Item onClick={()=> this.onClickItemData(item.id)} variant="dark" action active={activeId === item.id} key={item.id}>
            {item.name}
           </ListGroup.Item>
       )

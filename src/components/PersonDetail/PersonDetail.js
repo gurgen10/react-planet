@@ -39,17 +39,18 @@ export default class PersonDetail extends Component {
     });
   }
   componentDidMount() {
-    this.getUserData(1);
+    const { itemId } = this.props;
+    this.getUserData(itemId);
+  }
+  componentDidUpdate(prevProps) {
+    const { itemId } = this.props;
+    if (itemId !== prevProps.itemId) {
+      if(itemId)  this.getUserData( itemId);
+    }
   }
 
   render() {
-    const { itemId } = this.props;
     const  { user, loading }  = this.state;
-
-    if(itemId)  this.getUserData( itemId);
-    
-    
-    
     if(loading) return <Spinner animation="border" variant="warning"/>
 
     return (
