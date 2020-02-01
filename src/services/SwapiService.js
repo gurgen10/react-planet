@@ -75,8 +75,8 @@ class SwapiService {
       id: this._getId(user.url),
       name: user.name,
       gender: user.gender,
-      birthYear: user.birthYear,
-      eyeColor: user.eyeColor
+      birthYear: user.birth_year,
+      eyeColor: user.eye_color
     }
   }
 }

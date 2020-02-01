@@ -45,6 +45,9 @@ export default class PersonDetail extends Component {
   componentDidUpdate(prevProps) {
     const { itemId } = this.props;
     if (itemId !== prevProps.itemId) {
+      this.setState({
+        loading: true
+      });
       if(itemId)  this.getUserData( itemId);
     }
   }
