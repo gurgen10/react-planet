@@ -5,6 +5,7 @@ import SwapiService from '../../services/SwapiService';
 import './PersonDetail.css';
 
 export default class PersonDetail extends Component {
+  swapi = new SwapiService();
 
   state = {
     user: {
@@ -17,44 +18,47 @@ export default class PersonDetail extends Component {
     loadong: true,
     hasError: false
   }
-  swapi = new SwapiService();
  
   getUserData = async (id) => {
     try {
-       const user = await this.swapi.getUser(id );
-      console.log('getUserData: ', id);
-      if(this.state.user.id !== id) this.onLoadData(user)
+      const user = await this.swapi.getUser(id );
+      this.onLoadData(user)
     } catch (error) {
       this.setState({
         loading: false
       });
-      throw new Error(error)
-      
+      throw new Error(error) 
     }
   }
+
   onLoadData = (user) => {
     this.setState({
       user,
       loading: false
     });
   }
+
   componentDidMount() {
     const { itemId } = this.props;
-    this.getUserData(itemId);
+    if(itemId )this.getUserData(itemId);
   }
+
   componentDidUpdate(prevProps) {
     const { itemId } = this.props;
     if (itemId !== prevProps.itemId) {
       this.setState({
         loading: true
       });
-      if(itemId)  this.getUserData( itemId);
+      if(itemId) { 
+        this.getUserData( itemId);
+      }  
     }
   }
 
   render() {
     const  { user, loading }  = this.state;
-    if(loading) return <Spinner animation="border" variant="warning"/>
+    const  { itemId } = this.props;
+    if(loading || !itemId) return <Spinner animation="border" variant="warning"/>
 
     return (
       <Row className="detail">

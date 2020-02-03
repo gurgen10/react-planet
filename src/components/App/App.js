@@ -12,7 +12,7 @@ class App extends Component{
 
   state = {
     toggleRandomPlanet: false,
-    itemId: 1
+    itemId: null
   }
   onClickItem = (id) => {
     console.log(id);
@@ -45,7 +45,7 @@ class App extends Component{
   
         <Row className="main-container">
           <Col md="3">
-            <ListItem onClickItem={this.onClickItem}/>
+            <ListItem onClickItem={this.onClickItem} itemId={itemId}/>
           </Col>
   
           <Col md="9">
