@@ -24,9 +24,11 @@ export default class ListItem extends Component {
     try {
       const items = await this.swapi.getUsers();
       this.setState({items});
+      if(items[0].id) this.props.onClickItem(items[0].id)
   
     } catch (e) {
-      this.catchError(e);
+     console.log(e);
+     
     }
   }
 
@@ -34,20 +36,10 @@ export default class ListItem extends Component {
     return (<h1>Error!!!!!!</h1>)
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.itemId) {
-      const { items } = this.state;
-      if(items[0].id) this.props.onClickItem(items[0].id)
-      
-    }
-  }
-
-
   render() {
     const { items, activeId } = this.state;
    
     if(!items) return <Spinner  animation="border" variant="warning"/>
-    //if(items[0].id) this.props.onClickItem(items[0].id)
     const users = items.map((item, index) => {
       return (
         <ListGroup.Item onClick={()=> this.onClickItemData(item.id)} variant="dark" action active={activeId === item.id} key={item.id}>
