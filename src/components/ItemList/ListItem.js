@@ -17,14 +17,14 @@ export default class ListItem extends Component {
 
   onClickItemData = (id) => {
     this.setState({ activeId: id })
-    this.props.onClickItem(id)
+    this.props.getActiveId(id)
   }
 
   getUsers = async () => {
     try {
       const items = await this.swapi.getUsers();
       this.setState({items});
-      if(items[0].id) this.props.onClickItem(items[0].id)
+      if(items[0].id) this.props.getActiveId(items[0].id)
   
     } catch (e) {
      console.log(e);
